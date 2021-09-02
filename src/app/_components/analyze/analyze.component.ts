@@ -20,6 +20,9 @@ export class AnalyzeComponent implements OnInit {
   public metadataLoaded: boolean = false;
   public sceneScore: number = 0;
 
+  public motionList: any[] = [];
+  public motionListLoaded: boolean = false;
+
   constructor(public fileSelectorService: FileSelectorService, private ref: ChangeDetectorRef) { }
 
   setStatus(status: string) {
@@ -83,24 +86,38 @@ export class AnalyzeComponent implements OnInit {
 
   extractMotionList(metadata: any[]) {
     function motionDetected(sceneScore: number) {
-      return sceneScore > 0.01;
+      return sceneScore > 0.008;
     }
 
     let motion = [
-      {motion: true, time: 0},
-      {motion: false, time: 0}
+      {motion: true, time: 0, count: 0},
+      {motion: false, time: 0, count: 0}
     ];
 
+    let framesWithMotion = 0;
+    let framesWithNoMotion = 0;
     let previousTime = 0;
     metadata.forEach((obj) => {
       if(motionDetected(obj.scene_score)) {
         motion[0].time += obj.pts_time - previousTime;
+        framesWithNoMotion = 0;
+        framesWithMotion++;
+        if(framesWithMotion > 4) {
+          motion[0].count++;
+        }
       } else {
+        console.log("no motion", framesWithNoMotion);
         motion[1].time += obj.pts_time - previousTime;
+        framesWithMotion = 0;
+        framesWithNoMotion++;
+        if(framesWithNoMotion > 4) {
+          motion[1].count++;
+        }
       }
       previousTime = obj.pts_time;
     });
-    return motion;
+    this.motionListLoaded = true;
+    this.motionList = motion;
   }
 
   videoTimeUpdate(event: Event) {

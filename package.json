@@ -5,6 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng build --base-href ./ && electron .",
+    "build": "ng build --base-href ./ && electron-builder",
     "electron-rebuild": "electron-rebuild -w opencv4nodejs"
   },
   "private": true,
@@ -19,7 +20,10 @@
     "@angular/router": "~12.1.1",
     "@fortawesome/fontawesome-free": "^5.15.4",
     "bootstrap": "^5.1.0",
+    "electron-builder": "^22.11.7",
     "electron-is-dev": "^2.0.0",
+    "ffmpeg-static": "^4.4.0",
+    "ffprobe-static": "^3.0.0",
     "nanoid": "^3.1.25",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",

@@ -4,8 +4,17 @@ const path = require('path');
 const fs = require('fs');
 const readline = require('readline');
 
+const ffmpegPath = require('ffmpeg-static').replace(
+  'app.asar',
+  'app.asar.unpacked'
+);
+const ffprobePath = require('ffprobe-static').path.replace(
+  'app.asar',
+  'app.asar.unpacked'
+);
+
 function getFramesCount(videoPath){
-  let process = exec(`ffprobe -v error -select_streams v:0 -count_packets -show_entries stream=nb_read_packets -of csv=p=0 ${videoPath}`);
+  let process = exec(`${ffprobePath} -v error -select_streams v:0 -count_packets -show_entries stream=nb_read_packets -of csv=p=0 ${videoPath}`);
   process.stdout.on('data', (data) => {
     postMessage({
       type: 'frames_count',
@@ -18,7 +27,7 @@ function getFramesCount(videoPath){
 function runProcessing(videoPath){
   let metadataCode = nanoid();
 
-  let process = exec(`ffmpeg -i ${videoPath} -vf select='gte(scene\,0)',metadata=print:file=scenescores_${metadataCode}.txt -an -f null -`, {
+  let process = exec(`${ffmpegPath} -i ${videoPath} -vf select='gte(scene\,0)',metadata=print:file=scenescores_${metadataCode}.txt -an -f null -`, {
     cwd: 'C:\\Users\\ardui\\progetti\\video-motion-detector\\tmp'
   });
 
