@@ -1,7 +1,8 @@
 video {
-    max-width: 320px;
-    display: flex;
-    margin: 10px;
+    max-width: 460px;
+    display: block;
+    margin: auto;
+    margin-top: 10px;
 }
 
 button {

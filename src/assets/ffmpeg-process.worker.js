@@ -4,6 +4,16 @@ const path = require('path');
 const fs = require('fs');
 const readline = require('readline');
 
+function getFramesCount(videoPath){
+  let process = exec(`ffprobe -v error -select_streams v:0 -count_packets -show_entries stream=nb_read_packets -of csv=p=0 ${videoPath}`);
+  process.stdout.on('data', (data) => {
+    postMessage({
+      type: 'frames_count',
+      frames_count: data.trim().replace("\\r\\n", "").replace("\\n", "")
+    });
+  });
+}
+
 //ffmpeg -loglevel 31 -i "test.mp4" -vf select='gte(scene\,0)',metadata=print:file=scenescores_ultrapreciso.txt -an -f null -
 function runProcessing(videoPath){
   let metadataCode = nanoid();
@@ -47,43 +57,45 @@ function runProcessing(videoPath){
 }
 
 function parseMetadata(metadataCode){
-  let metadata = [];
+  if(metadataCode !== undefined) {
+    let metadata = [];
 
-  let previousLine = "";
-  const fileStream = fs.createReadStream(path.join('C:\\Users\\ardui\\progetti\\video-motion-detector\\tmp', `scenescores_${metadataCode}.txt`));
+    let previousLine = "";
+    const fileStream = fs.createReadStream(path.join('C:\\Users\\ardui\\progetti\\video-motion-detector\\tmp', `scenescores_${metadataCode}.txt`));
 
-  console.log(`parsing metadata for ${metadataCode}`);
+    console.log(`parsing metadata for ${metadataCode}`);
   
-  const rl = readline.createInterface({
-    input: fileStream,
-    crlfDelay: Infinity
-  });
-
-  console.log("OK", rl);
-  rl.on("line", (line) => {
-    //Read two lines at time
-    if (!previousLine) {
-      // no previous line to compare to, so just remember this line
-      previousLine = line;
-    } else {
-      line = previousLine + " " + line;
-      console.log(line);
-      metadata.push({
-        frame: line.split("frame:")[1].split(" ")[0].trim(),
-        pts: line.split("pts:")[1].split(" ")[0].trim(),
-        pts_time: line.split("pts_time:")[1].split(" ")[0].trim(),
-        scene_score: line.split("scene_score=")[1].split(" ")[0].trim()
-      });
-      previousLine = "";
-    }
-  });
-
-  rl.on("close", () => {
-    postMessage({
-      type: 'metadata',
-      metadata: metadata
+    const rl = readline.createInterface({
+      input: fileStream,
+      crlfDelay: Infinity
     });
-  });
+
+    console.log("OK", rl);
+    rl.on("line", (line) => {
+      //Read two lines at time
+      if (!previousLine) {
+        // no previous line to compare to, so just remember this line
+        previousLine = line;
+      } else {
+        line = previousLine + " " + line;
+        console.log(line);
+        metadata.push({
+          frame: line.split("frame:")[1].split(" ")[0].trim(),
+          pts: line.split("pts:")[1].split(" ")[0].trim(),
+          pts_time: line.split("pts_time:")[1].split(" ")[0].trim(),
+          scene_score: line.split("scene_score=")[1].split(" ")[0].trim()
+        });
+        previousLine = "";
+      }
+    });
+
+    rl.on("close", () => {
+      postMessage({
+        type: 'metadata',
+        metadata: metadata
+      });
+    });
+  }
 }
 
 try{
@@ -93,6 +105,9 @@ try{
       case "start":
         runProcessing(data.videoPath);
         break;
+      
+      case "frames_count":
+        getFramesCount(data.videoPath);
     
       case "parse_metadata":
         parseMetadata(data.metadataCode);
