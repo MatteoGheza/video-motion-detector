@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { VimeModule } from '@vime/angular';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './_components/home/home.component';
@@ -20,8 +18,7 @@ import { SettingsComponent } from './_components/settings/settings.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    VimeModule
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
