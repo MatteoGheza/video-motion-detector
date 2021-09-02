@@ -11,7 +11,7 @@ const routes: Routes = [
   { path: 'analyze', component: AnalyzeComponent },
   { path: 'settings', component: SettingsComponent },
   //
-  { path: "**", redirectTo: "/home", pathMatch: "full" }
+  { path: "**", redirectTo: "/analyze", pathMatch: "full" }
 ];
 
 @NgModule({
