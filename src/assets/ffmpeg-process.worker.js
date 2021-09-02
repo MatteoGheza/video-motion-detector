@@ -4,6 +4,7 @@ const path = require('path');
 const fs = require('fs');
 const readline = require('readline');
 
+/*
 const ffmpegPath = require('ffmpeg-static').replace(
   'app.asar',
   'app.asar.unpacked'
@@ -12,6 +13,9 @@ const ffprobePath = require('ffprobe-static').path.replace(
   'app.asar',
   'app.asar.unpacked'
 );
+*/
+const ffmpegPath = require('ffmpeg-static-electron').path.replace("app.asar","app.asar.unpacked");
+const ffprobePath = require('ffprobe-static-electron').path.replace("app.asar","app.asar.unpacked");;
 
 function getFramesCount(videoPath){
   let process = exec(`${ffprobePath} -v error -select_streams v:0 -count_packets -show_entries stream=nb_read_packets -of csv=p=0 ${videoPath}`);

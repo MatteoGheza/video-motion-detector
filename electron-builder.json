@@ -18,15 +18,20 @@
         "!**/{__pycache__,thumbs.db,.flowconfig,.idea,.vs,.nyc_output}",
         "!**/{appveyor.yml,.travis.yml,circle.yml}",
         "!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}",
-        "!**/{docs,.github,bin,release,release_old}",
+        "!**/{docs,.github,bin,release,release_old,tmp,test}",
         "!**/Dockerfile",
         "!**/Dockerfile.standalone",
         "!**/Procfile"
     ],
     "asarUnpack":[
         "node_modules/ffmpeg-static/bin/${os}/${arch}/ffmpeg",
+        "node_modules/ffmpeg-static/bin/${os}/${arch}/ffmpeg.exe",
         "node_modules/ffmpeg-static/index.js",
-        "node_modules/ffmpeg-static/package.json"
+        "node_modules/ffmpeg-static/package.json",
+        "node_modules/ffprobe-static/bin/${os}/${arch}/ffprobe",
+        "node_modules/ffprobe-static/bin/${os}/${arch}/ffprobe.exe",
+        "node_modules/ffprobe-static/index.js",
+        "node_modules/ffprobe-static/package.json"
     ],
     "win": {
         "target": [

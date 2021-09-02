@@ -1,15 +1,16 @@
 {
   "name": "video-motion-detector",
+  "author": "Matteo Gheza",
+  "description": "A simple program for detecting motion sections in videos",
   "version": "0.0.0",
   "main": "app.js",
   "scripts": {
     "ng": "ng",
     "start": "ng build --base-href ./ && electron .",
-    "build": "ng build --base-href ./ && electron-builder",
-    "electron-rebuild": "electron-rebuild -w opencv4nodejs"
+    "build": "ng build --base-href ./ && electron-builder"
   },
-  "private": true,
   "dependencies": {
+    "@angular-builders/custom-webpack": "^12.1.1",
     "@angular/animations": "~12.1.1",
     "@angular/common": "~12.1.1",
     "@angular/compiler": "~12.1.1",
@@ -20,10 +21,9 @@
     "@angular/router": "~12.1.1",
     "@fortawesome/fontawesome-free": "^5.15.4",
     "bootstrap": "^5.1.0",
-    "electron-builder": "^22.11.7",
     "electron-is-dev": "^2.0.0",
-    "ffmpeg-static": "^4.4.0",
-    "ffprobe-static": "^3.0.0",
+    "ffmpeg-static-electron": "git+https://github.com/syphen/ffmpeg-static-electron.git",
+    "ffprobe-static-electron": "^2.0.2",
     "nanoid": "^3.1.25",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
@@ -36,6 +36,7 @@
     "@types/jasmine": "~3.6.0",
     "@types/node": "^12.11.1",
     "electron": "^14.0.0",
+    "electron-builder": "^22.11.7",
     "jasmine-core": "~3.7.0",
     "karma": "~6.3.0",
     "karma-chrome-launcher": "~3.1.0",
