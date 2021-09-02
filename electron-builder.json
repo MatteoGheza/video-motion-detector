@@ -24,14 +24,14 @@
         "!**/Procfile"
     ],
     "asarUnpack":[
-        "node_modules/ffmpeg-static/bin/${os}/${arch}/ffmpeg",
-        "node_modules/ffmpeg-static/bin/${os}/${arch}/ffmpeg.exe",
-        "node_modules/ffmpeg-static/index.js",
-        "node_modules/ffmpeg-static/package.json",
-        "node_modules/ffprobe-static/bin/${os}/${arch}/ffprobe",
-        "node_modules/ffprobe-static/bin/${os}/${arch}/ffprobe.exe",
-        "node_modules/ffprobe-static/index.js",
-        "node_modules/ffprobe-static/package.json"
+        "node_modules/ffmpeg-static-electron/bin/${os}/${arch}/ffmpeg",
+        "node_modules/ffmpeg-static-electron/bin/${os}/${arch}/ffmpeg.exe",
+        "node_modules/ffmpeg-static-electron/index.js",
+        "node_modules/ffmpeg-static-electron/package.json",
+        "node_modules/ffprobe-static-electron/bin/${os}/${arch}/ffprobe",
+        "node_modules/ffprobe-static-electron/bin/${os}/${arch}/ffprobe.exe",
+        "node_modules/ffprobe-static-electron/index.js",
+        "node_modules/ffprobe-static-electron/package.json"
     ],
     "win": {
         "target": [
