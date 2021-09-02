@@ -1,0 +1,6 @@
+<video controls controlslist="nodownload" *ngIf="playVideo" (timeupdate)="videoTimeUpdate($event)">
+    <source [attr.src]="videoUrl" type="video/mp4">
+</video>
+<button (click)="selectVideo()" class="btn btn-primary">Select video</button>
+<button (click)="ffmpegProcess()" class="btn btn-primary">Process using ffmpeg (fast)</button>
+<h1 *ngIf="metadataLoaded">{{ sceneScore }}</h1>

@@ -1,0 +1,9 @@
+video {
+    max-width: 320px;
+    display: flex;
+    margin: 10px;
+}
+
+button {
+    margin: 10px;
+}
