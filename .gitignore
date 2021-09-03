@@ -8,7 +8,7 @@
 /bazel-out
 
 # dependencies
-/node_modules
+/UI/node_modules
 
 # profiling files
 chrome-profiler-events*.json
@@ -48,3 +48,9 @@ test
 tmp
 release
 release*
+build
+build*
+
+__pycache__
+*.pyc
+*.pyo
