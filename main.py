@@ -48,7 +48,8 @@ def python_get_video_frames(id):
     return {
         'status': 'ok',
         'error': '',
-        'framesCount': video.get(cv2.CAP_PROP_FRAME_COUNT)
+        'framesCount': video.get(cv2.CAP_PROP_FRAME_COUNT),
+        'framerate': video.get(cv2.CAP_PROP_FPS)
     }
 
 @eel.expose
@@ -105,6 +106,9 @@ def python_process_video_opencv2(id):
         else:
             firstFrame = gray
     #cv2.imshow("First frame", firstFrame)
+    video.release()
+
+    video = cv2.VideoCapture(filepath)
 
     while True:
         # grab the current frame and initialize the occupied/unoccupied

@@ -1,17 +1,19 @@
 <div class="container">
-    <video class="text-center" controls controlslist="nodownload" *ngIf="playVideo" [attr.src]="videoUrl" (timeupdate)="videoTimeUpdate($event)"></video>
+    <div class="text-center">
+        <video controls controlslist="nodownload" *ngIf="playVideo" [attr.src]="videoUrl" (timeupdate)="videoTimeUpdate($event)"></video>
+        <h4 *ngIf="metadataLoaded" [class]="sceneScore > 0.008 ? 'text-success' : 'text-danger'">sceneScore: <b>{{ sceneScore }}</b></h4>
+    </div>
     <div class="row">
         <button (click)="selectVideo()" class="btn btn-primary">Select video</button>
-        <button (click)="ffmpegProcess()" class="btn btn-primary">Process using ffmpeg (fast)</button>
+        <button (click)="ffmpegProcess()" class="btn btn-primary" disabled>Process using ffmpeg (fast but currently not working)</button>
         <button (click)="opencv2Process()" class="btn btn-primary">Process using OpenCV2 (preferred method but slow)</button>
     </div>
     <h1>Status: <b>{{ status }}</b></h1>
     <div class="progress" *ngIf="status === 'Processing video...'">
         <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" [style.width]="processProgress" [attr.aria-valuenow]="currentProcessedFrame" aria-valuemin="0" [attr.aria-valuemax]="framesCount"></div>
     </div>
-    <h1 *ngIf="metadataLoaded" [class]="sceneScore > 0.008 ? 'text-success' : 'text-danger'">sceneScore: <b>{{ sceneScore }}</b></h1>
-    <div *ngIf="motionListLoaded">
-        <h1>Motion detected for {{ motionList[0]["time"] | number : '1.2' }} seconds ({{ motionList[0]["count"] }} times)</h1>
-        <h1>No motion detected for {{ motionList[1]["time"] | number : '1.2' }} seconds ({{ motionList[1]["count"] }} times)</h1>
+    <div *ngIf="motionStatsLoaded">
+        <h1>Motion detected for {{ motionCount / 30 | number : '1.2' }} seconds ({{ motionSegments }} times)</h1>
+        <h1>No motion detected for {{ noMotionCount / 30 | number : '1.2' }} seconds ({{ noMotionSegments }} times)</h1>
     </div>
 </div>
