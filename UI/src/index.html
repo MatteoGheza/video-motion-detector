@@ -13,5 +13,9 @@
 </head>
 <body>
   <app-root></app-root>
+  <script>
+    fetch("http://localhost:8000/ping/").then((e) => {}).catch((r) => { window.close(); });
+    if(window.eel === undefined) window.close();
+  </script>
 </body>
 </html>

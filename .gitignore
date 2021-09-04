@@ -50,6 +50,7 @@ release
 release*
 build
 build*
+UI
 
 __pycache__
 *.pyc

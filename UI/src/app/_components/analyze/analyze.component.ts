@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, HostListener } from '@angular/core';
 import { FileSelectorService } from 'src/app/_services/file-selector.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-analyze',
@@ -57,7 +58,11 @@ export class AnalyzeComponent implements OnInit {
     document.dispatchEvent(event);
   }
 
-  constructor(public fileSelectorService: FileSelectorService, private ref: ChangeDetectorRef) {
+  constructor(
+    public fileSelectorService: FileSelectorService,
+    private ref: ChangeDetectorRef,
+    private http: HttpClient
+  ) {
     this.eel = (window as any).eel;
     this.eel.expose(this.emitProcessProgressUpdateEvent, 'processProgressUpdate');
   }
@@ -79,12 +84,42 @@ export class AnalyzeComponent implements OnInit {
   }
 
   ffmpegProcess() {
+    this.metadataLoaded = false;
+    this.currentProcessedFrame = 0;
+    this.processProgress = "0%";
     this.setStatus("Starting video processing...");
     this.eel.python_process_video_ffmpeg(this.videoId)((response: any) => {
       this.resetStatus();
       this.currentProcessedFrame = 0;
       this.processProgress = "0%";
+      this.loadMetadata();
     });
+  }
+
+  opencv2Process() {
+    this.metadataLoaded = false;
+    this.currentProcessedFrame = 0;
+    this.processProgress = "0%";
+    this.setStatus("Starting video processing...");
+    this.eel.python_process_video_opencv2(this.videoId)((response: any) => {
+      this.resetStatus();
+      this.currentProcessedFrame = 0;
+      this.processProgress = "0%";
+      this.metadata = response.metadata;
+      this.metadataLoaded = true;
+      this.resetStatus();
+      console.log(this.metadata);
+    });
+  }
+
+  loadMetadata() {
+    this.setStatus("Loading metadata...");
+    this.http.get<any>('http://localhost:8000/ffmpeg_metadata/'+this.videoId).subscribe(data => {
+      this.metadata = data.data;
+      this.metadataLoaded = true;
+      this.resetStatus();
+      console.log(this.metadata);
+    })
   }
 
   videoTimeUpdate(event: Event) {
