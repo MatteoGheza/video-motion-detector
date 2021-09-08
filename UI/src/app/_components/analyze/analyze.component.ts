@@ -12,6 +12,7 @@ export class AnalyzeComponent implements OnInit {
 
   public playVideo: boolean = false;
   public videoUrl: string = '';
+  public videoDuration: number = 0;
   
   public videoId: string = '';
   public filePath: string = '';
@@ -135,6 +136,9 @@ export class AnalyzeComponent implements OnInit {
     function motionDetected(sceneScore: number) {
       return sceneScore > 0.008;
     }
+
+    let videoElement = document.getElementsByTagName("video")[0];
+    this.videoDuration = videoElement.duration;
 
     let lastFramesWithMotion: number;
     let lastFrameHasMotion: boolean;

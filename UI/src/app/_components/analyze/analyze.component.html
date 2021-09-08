@@ -1,7 +1,7 @@
 <div class="container">
     <div class="text-center">
         <video controls controlslist="nodownload" *ngIf="playVideo" [attr.src]="videoUrl" (timeupdate)="videoTimeUpdate($event)"></video>
-        <h4 *ngIf="metadataLoaded" [class]="sceneScore > 0.008 ? 'text-success' : 'text-danger'">sceneScore: <b>{{ sceneScore }}</b></h4>
+        <h4 *ngIf="metadataLoaded" [class]="sceneScore > 0.008 ? 'text-success' : 'text-danger'"><b>{{ sceneScore > 0.008 ? 'Motion detected' : 'No motion detected' }}</b></h4>
     </div>
     <div class="row">
         <button (click)="selectVideo()" class="btn btn-primary">Select video</button>
@@ -14,6 +14,6 @@
     </div>
     <div *ngIf="motionStatsLoaded">
         <h1>Motion detected for {{ motionCount / 30 | number : '1.2' }} seconds ({{ motionSegments }} times)</h1>
-        <h1>No motion detected for {{ noMotionCount / 30 | number : '1.2' }} seconds ({{ noMotionSegments }} times)</h1>
+        <h1>No motion detected for {{ videoDuration - motionCount / 30 | number : '1.2' }} seconds ({{ noMotionSegments }} times)</h1>
     </div>
 </div>
